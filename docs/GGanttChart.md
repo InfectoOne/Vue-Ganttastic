@@ -22,6 +22,9 @@ The main component of Vue Ganttastic. Represents an entire chart and is meant to
 | `font` | string | `"Helvetica"`| Font family of the chart.
 | `label-column-title` | string? | `''` | If specified, a dedicated column for the row labels will be rendered on the left side of the graph. The specified title is displayed in the upper left corner, as the column's header.
 | `label-column-width` | string? | `150px` | Width of the column containing the row labels (if `label-column-title` specified)
+| `showDayName` | boolean? | `true` | Adds the Day name to the timeunit axis when in `day` or `date` mode
+| `dayNameLength` | string? | `short` | Sets whether the day name is short or long eg. 'Fri' or 'Friday'. Possible values: `short`, `long`
+| `locale` | string? | 'en-GB' | Used when getting the day name only.
 
 
 ## Custom Events

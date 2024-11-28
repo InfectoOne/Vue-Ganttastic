@@ -100,6 +100,9 @@ export interface GGanttChartProps {
   font?: string
   labelColumnTitle?: string
   labelColumnWidth?: string
+  showDayName?: boolean
+  dayNameLength?: "short" | "long"
+  locale?: string
 }
 
 export type GGanttChartConfig = ToRefs<Required<GGanttChartProps>> & {
@@ -124,7 +127,10 @@ const props = withDefaults(defineProps<GGanttChartProps>(), {
   highlightedUnits: () => [],
   font: "inherit",
   labelColumnTitle: "",
-  labelColumnWidth: "150px"
+  labelColumnWidth: "150px",
+  showDayName: true,
+  dayNameLength: "short",
+  locale: "en-GB"
 })
 
 const emit = defineEmits<{
