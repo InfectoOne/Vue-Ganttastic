@@ -25,6 +25,7 @@ The main component of Vue Ganttastic. Represents an entire chart and is meant to
 | `showDayName` | boolean? | `true` | Adds the Day name to the timeunit axis when in `day` or `date` mode
 | `dayNameLength` | string? | `short` | Sets whether the day name is short or long eg. 'Fri' or 'Friday'. Possible values: `short`, `long`
 | `locale` | string? | 'en-GB' | Used when getting the day name only.
+| `allowRightClickDragging | boolean? | 'false' | Enable or disable the ability to drag bars when right-clicking a bar. Useful if you want to use the context menu and prevent accidental bar movements.
 
 
 ## Custom Events
