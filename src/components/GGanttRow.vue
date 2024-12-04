@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref, toRefs, computed, type StyleValue, provide } from "vue"
+import { ref, type Ref, toRefs, computed, type StyleValue, provide, onMounted } from "vue"
 
 import useTimePositionMapping from "../composables/useTimePositionMapping.js"
 import provideConfig from "../provider/provideConfig.js"
@@ -40,11 +40,24 @@ const props = defineProps<{
   label: string
   bars: GanttBarObject[]
   highlightOnHover?: boolean
+  disableDragging?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: "drop", value: { e: MouseEvent; datetime: string | Date }): void
 }>()
+
+const setImmobileFlags = () => {
+  for (const bar of props.bars) {
+    if (!Object.prototype.hasOwnProperty.call(bar.ganttBarConfig, "immobile")) {
+      bar.ganttBarConfig.immobile = props.disableDragging
+    } else {
+      // if disableDragging is set to true, then override immobile flag
+      // if it isn't, then leave it as is
+      bar.ganttBarConfig.immobile = props.disableDragging || bar.ganttBarConfig.immobile
+    }
+  }
+}
 
 const { rowHeight, colors, labelColumnTitle } = provideConfig()
 const { highlightOnHover } = toRefs(props)
@@ -74,9 +87,12 @@ const onDrop = (e: MouseEvent) => {
 }
 
 const isBlank = (str: string) => {
-  return (!str || /^\s*$/.test(str))
+  return !str || /^\s*$/.test(str)
 }
 
+onMounted(() => {
+  setImmobileFlags()
+})
 </script>
 
 <style>
