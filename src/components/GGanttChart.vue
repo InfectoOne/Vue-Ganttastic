@@ -107,6 +107,7 @@ export interface GGanttChartProps {
   dayNameLength?: "short" | "long"
   locale?: string
   allowRightClickDragging?: boolean
+  disableDragging?: boolean
 }
 
 export type GGanttChartConfig = ToRefs<Required<GGanttChartProps>> & {
@@ -138,7 +139,8 @@ const props = withDefaults(defineProps<GGanttChartProps>(), {
   showDayName: true,
   dayNameLength: "short",
   locale: "en-GB",
-  allowRightClickDragging: false
+  allowRightClickDragging: false,
+  disableDragging: false
 })
 
 const emit = defineEmits<{
