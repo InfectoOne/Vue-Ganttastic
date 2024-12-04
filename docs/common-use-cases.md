@@ -125,7 +125,7 @@ const onDrop = (e: MouseEvent, datetime?: string) => {
 If the time-range (`chart-start` to `chart-end`) of your chart is very large, the displayed time units in the time axis might be too dense if the chart is not wide enough. You might want to specify the precision of the time axis accordingly. Use the `precision` prop of `g-gantt-chart` for this. Possible values are `hour`, `day`, `week` and `month`.
 
 ## Chart themes
-Vue Ganttastic ships with several pre-made color schemes that you may specify using the `color-scheme` prop of `g-gantt-chart`. [List of available color-schemes](https://infectoone.github.io/vue-ganttastic/GGanttChart.html#color-schemes)
+Vue Ganttastic ships with several pre-made color schemes that you may specify using the `color-scheme` prop of `g-gantt-chart`. [List of available color-schemes](https://zunnzunn.github.io/vue-ganttastic/GGanttChart.html#color-schemes)
 
 ## Locale
 Since Vue Ganttastic uses Day.js for all datetime manipulations, you can change the locale of Vue Ganttastic by [changing the global locale of Day.js](https://day.js.org/docs/en/i18n/changing-locale). You will usually do this in your `src/main.js` before you initialize the Ganttastic plugin.
