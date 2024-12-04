@@ -97,6 +97,9 @@ export interface GGanttChartProps {
   noOverlap?: boolean
   rowHeight?: number
   highlightedUnits?: number[]
+  highlightedDates?: number[]
+  highlightedDaysOfWeek?: number[]
+  highlightedHours?: number[]
   font?: string
   labelColumnTitle?: string
   labelColumnWidth?: string
@@ -126,6 +129,9 @@ const props = withDefaults(defineProps<GGanttChartProps>(), {
   noOverlap: false,
   rowHeight: 40,
   highlightedUnits: () => [],
+  highlightedDates: () => [],
+  highlightedDaysOfWeek: () => [],
+  highlightedHours: () => [],
   font: "inherit",
   labelColumnTitle: "",
   labelColumnWidth: "150px",

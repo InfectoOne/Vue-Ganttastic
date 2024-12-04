@@ -2,8 +2,11 @@
   <g-gantt-chart
     :chart-start="chartStart"
     :chart-end="chartEnd"
-    precision="week"
+    precision="day"
     :row-height="40"
+    :highlighted-hours="[0, 1, 8, 22, 23]"
+    :highlighted-days-of-week="[0, 6]"
+    :highlighted-dates="[4, 6]"
     grid
     current-time
     width="100%"
