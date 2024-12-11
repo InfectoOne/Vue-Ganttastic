@@ -18,13 +18,15 @@
     @mouseleave="onMouseEvent"
     @contextmenu="onMouseEvent"
   >
-    <div class="g-gantt-bar-label">
-      <slot :bar="bar">
-        <div>
-          {{ barConfig.label || "" }}
-        </div>
-        <div v-if="barConfig.html" v-html="barConfig.html"/>
-      </slot>
+    <div class="g-gantt-bar-label-container" :style="labelPosition">
+      <div class="g-gantt-bar-label">
+        <slot :bar="bar">
+          <div>
+            {{ barConfig.label || "" }}
+          </div>
+          <div v-if="barConfig.html" v-html="barConfig.html"/>
+        </slot>
+      </div>
     </div>
     <template v-if="barConfig.hasHandles">
       <div class="g-gantt-bar-handle-left" />
@@ -104,6 +106,34 @@ const { barStart, barEnd, width, chartStart, chartEnd, chartSize } = config
 
 const xStart = ref(0)
 const xEnd = ref(0)
+
+// Position bar label to the center of the visible part of the chart
+const labelPosition = computed((): Record<string, string> => {
+  const barContainer = barContainerEl?.value?.getBoundingClientRect()
+  if (!barContainer) {
+    return {}
+  }
+  // The bar either ends at the end of the container (overflow) or at the element's position in the chart
+  const barVisibleRight = Math.min(xEnd.value, barContainer.right - barContainer.left)
+  // The bar either starts at the beginning of the container (overflow) or at the element's position in the chart
+  const barVisibleLeft = Math.max(xStart.value, 0)
+  // Visible width of the bar
+  const barVisibleWidth = barVisibleRight - barVisibleLeft
+
+  // The label container is positioned from the left.
+  // If overflowing on the left, adjust the label's positioning to fit in the visible part
+  let offsetLeft = 0
+  if (xStart.value < 0) {
+    // Shift the left position by the width of the hidden part
+    offsetLeft = -xStart.value
+  }
+
+  return {
+    left: `${offsetLeft}px`,
+    width: `${barVisibleWidth}px`,
+    position: "absolute"
+  }
+})
 
 onMounted(() => {
   watch(

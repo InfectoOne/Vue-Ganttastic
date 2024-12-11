@@ -77,6 +77,7 @@ import {
   CHART_ROWS_KEY,
   CONFIG_KEY,
   EMIT_BAR_EVENT_KEY,
+  CHART_CONTAINER_KEY,
   type ChartRow
 } from "../provider/symbols.js"
 
@@ -270,6 +271,7 @@ const emitBarEvent = (
 const ganttChart = ref<HTMLElement | null>(null)
 const chartSize = useElementSize(ganttChart)
 
+provide(CHART_CONTAINER_KEY, ganttChart)
 provide(CHART_ROWS_KEY, getChartRows)
 provide(CONFIG_KEY, {
   ...toRefs(props),
