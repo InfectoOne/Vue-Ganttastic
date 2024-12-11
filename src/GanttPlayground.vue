@@ -27,9 +27,11 @@
     <g-gantt-row label="My another new row to test" highlight-on-hover :bars="bars2" />
     <g-gantt-row label="just another row to test gantt" highlight-on-hover :bars="bars3" />
     <g-gantt-row
+      id="some-unique-id"
       label="errors teach us, and debugging makes us stronger!"
       highlight-on-hover
       :bars="bars4"
+      @click-label="onLabelClick"
     />
   </g-gantt-chart>
 
@@ -47,6 +49,10 @@ const chartStart = ref(dayjs().startOf("day").format(format.value))
 const chartEnd = ref(
   dayjs(chartStart.value, format.value).add(3, "days").hour(12).format(format.value)
 )
+
+const onLabelClick = (e: MouseEvent) => {
+  console.log("click-label", e)
+}
 
 const bars1 = ref<GanttBarObject[]>([
   {

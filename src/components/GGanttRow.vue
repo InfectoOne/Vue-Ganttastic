@@ -14,7 +14,9 @@
       :style="{ background: colors.primary, color: colors.text }"
     >
       <slot name="label">
-        {{ label }}
+        <span @click="onLabelClick">
+          {{ label }}
+        </span>
       </slot>
     </div>
     <div ref="barContainer" class="g-gantt-row-bars-container" v-bind="$attrs">
@@ -41,10 +43,12 @@ const props = defineProps<{
   bars: GanttBarObject[]
   highlightOnHover?: boolean
   disableDragging?: boolean
+  id?: string | number
 }>()
 
 const emit = defineEmits<{
   (e: "drop", value: { e: MouseEvent; datetime: string | Date }): void
+  (e: "click-label", value: { e: MouseEvent; label: string; id?: string | number }): void
 }>()
 
 const setImmobileFlags = () => {
@@ -84,6 +88,10 @@ const onDrop = (e: MouseEvent) => {
   const xPos = e.clientX - container.left
   const datetime = mapPositionToTime(xPos)
   emit("drop", { e, datetime })
+}
+
+const onLabelClick = (e: MouseEvent) => {
+  emit("click-label", { e, label: props.label, id: props.id })
 }
 
 const isBlank = (str: string) => {

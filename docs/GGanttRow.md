@@ -4,6 +4,7 @@ Represents a single row of the chart. It is meant to be a child component of `g-
 ## Props
 | Prop        | Type    | Default | Description                  |
 |-------------|---------|---------|------------------------------|
+| `id`        | `string, number` | | Used in the `click-label` event. 
 | `label`     |`string?`| `""`    | Text that is floating in the upper left corner of the row.
 | `bars`      |`GanttBarObject[]`|  | Array of objects, each representing a bar in this row. Any JavaScript/TypeScript object with a nested `ganttBarConfig` object with a unique `id` string property is compatible. The objects must also contain two properties which represent the start and end datetime of the bar. The names of those properties must be passed  to the `bar-start` and `bar-end` props of the `g-gantt-chart` parent.
 | `highlight-on-hover` | `boolean?` | `false` | Used for toggling a background color transition effect on mouse hover.
@@ -13,6 +14,7 @@ Represents a single row of the chart. It is meant to be a child component of `g-
 | Event name                 | Event data                                                 |
 |----------------------------|------------------------------------------------------------|
 | `drop`                     | `{ e: MouseEvent, datetime: string}`                       |
+| `click-label` | `{ e: MouseEvent, label: string, id?: string | number }` |
 
 
 ## Slots
