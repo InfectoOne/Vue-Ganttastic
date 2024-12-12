@@ -41,7 +41,11 @@
         </div>
       </div>
     </div>
-    <g-gantt-bar-tooltip :model-value="showTooltip || isDragging" :bar="tooltipBar">
+    <g-gantt-bar-tooltip
+      :model-value="showTooltip || isDragging"
+      :bar="tooltipBar"
+      :tooltipTitle="showLabelAsTooltipTitle"
+    >
       <template #default>
         <slot name="bar-tooltip" :bar="tooltipBar" />
       </template>
@@ -77,6 +81,7 @@ import {
   CHART_ROWS_KEY,
   CONFIG_KEY,
   EMIT_BAR_EVENT_KEY,
+  CHART_CONTAINER_KEY,
   type ChartRow
 } from "../provider/symbols.js"
 
@@ -97,9 +102,18 @@ export interface GGanttChartProps {
   noOverlap?: boolean
   rowHeight?: number
   highlightedUnits?: number[]
+  highlightedDates?: number[]
+  highlightedDaysOfWeek?: number[]
+  highlightedHours?: number[]
   font?: string
   labelColumnTitle?: string
   labelColumnWidth?: string
+  showDayName?: boolean
+  dayNameLength?: "short" | "long"
+  locale?: string
+  allowRightClickDragging?: boolean
+  disableDragging?: boolean
+  showLabelAsTooltipTitle?: boolean
 }
 
 export type GGanttChartConfig = ToRefs<Required<GGanttChartProps>> & {
@@ -122,9 +136,18 @@ const props = withDefaults(defineProps<GGanttChartProps>(), {
   noOverlap: false,
   rowHeight: 40,
   highlightedUnits: () => [],
+  highlightedDates: () => [],
+  highlightedDaysOfWeek: () => [],
+  highlightedHours: () => [],
   font: "inherit",
   labelColumnTitle: "",
-  labelColumnWidth: "150px"
+  labelColumnWidth: "150px",
+  showDayName: true,
+  dayNameLength: "short",
+  locale: "en-GB",
+  allowRightClickDragging: false,
+  disableDragging: false,
+  showLabelAsTooltipTitle: true
 })
 
 const emit = defineEmits<{
@@ -254,6 +277,7 @@ const emitBarEvent = (
 const ganttChart = ref<HTMLElement | null>(null)
 const chartSize = useElementSize(ganttChart)
 
+provide(CHART_CONTAINER_KEY, ganttChart)
 provide(CHART_ROWS_KEY, getChartRows)
 provide(CONFIG_KEY, {
   ...toRefs(props),

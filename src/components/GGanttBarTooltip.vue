@@ -12,7 +12,7 @@
       >
         <div class="g-gantt-tooltip-color-dot" :style="{ background: dotColor }" />
         <slot :bar="bar" :bar-start="barStartRaw" :bar-end="barEndRaw">
-          {{ tooltipContent }}
+          <span v-html="tooltipContent"></span>
         </slot>
       </div>
     </transition>
@@ -20,11 +20,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRefs, ref, watch, nextTick } from "vue"
+import { computed, toRefs, ref, watch, nextTick, inject } from "vue"
 
 import type { GanttBarObject } from "../types"
 import useDayjsHelper from "../composables/useDayjsHelper.js"
 import provideConfig from "../provider/provideConfig.js"
+import { CHART_CONTAINER_KEY } from "../provider/symbols"
 
 const TOOLTIP_FORMATS = {
   hour: "HH:mm",
@@ -39,10 +40,13 @@ const DEFAULT_DOT_COLOR = "cadetblue"
 const props = defineProps<{
   bar: GanttBarObject | undefined
   modelValue: boolean
+  tooltipTitle?: boolean
 }>()
 
 const { bar } = toRefs(props)
 const { precision, font, barStart, barEnd, rowHeight } = provideConfig()
+
+const barContainerEl = inject(CHART_CONTAINER_KEY)
 
 const tooltipTop = ref("0px")
 const tooltipLeft = ref("0px")
@@ -52,7 +56,7 @@ watch(
     await nextTick()
 
     const barId = bar?.value?.ganttBarConfig.id || ""
-    if (!barId) {
+    if (!barId || !barContainerEl?.value) {
       return
     }
 
@@ -61,7 +65,7 @@ watch(
       top: 0,
       left: 0
     }
-    const leftValue = Math.max(left, 10)
+    const leftValue = Math.max(left, barContainerEl?.value.getBoundingClientRect().left)
     tooltipTop.value = `${top + rowHeight.value - 10}px`
     tooltipLeft.value = `${leftValue}px`
   },
@@ -82,7 +86,11 @@ const tooltipContent = computed(() => {
   const format = TOOLTIP_FORMATS[precision.value]
   const barStartFormatted = toDayjs(barStartRaw.value).format(format)
   const barEndFormatted = toDayjs(barEndRaw.value).format(format)
-  return `${barStartFormatted} \u2013 ${barEndFormatted}`
+  const title = props.tooltipTitle ? `${props?.bar?.ganttBarConfig.label} <br />` : ""
+  const subtitle = props?.bar?.ganttBarConfig.subtitle
+    ? `<br />${props.bar.ganttBarConfig.subtitle}`
+    : ""
+  return `${title}${barStartFormatted} \u2013 ${barEndFormatted}${subtitle}`
 })
 </script>
 

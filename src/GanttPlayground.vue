@@ -2,8 +2,11 @@
   <g-gantt-chart
     :chart-start="chartStart"
     :chart-end="chartEnd"
-    precision="week"
+    precision="day"
     :row-height="40"
+    :highlighted-hours="[0, 1, 8, 22, 23]"
+    :highlighted-days-of-week="[0, 6]"
+    :highlighted-dates="[4, 6]"
     grid
     current-time
     width="100%"
@@ -24,9 +27,11 @@
     <g-gantt-row label="My another new row to test" highlight-on-hover :bars="bars2" />
     <g-gantt-row label="just another row to test gantt" highlight-on-hover :bars="bars3" />
     <g-gantt-row
+      id="some-unique-id"
       label="errors teach us, and debugging makes us stronger!"
       highlight-on-hover
       :bars="bars4"
+      @click-label="onLabelClick"
     />
   </g-gantt-chart>
 
@@ -44,6 +49,10 @@ const chartStart = ref(dayjs().startOf("day").format(format.value))
 const chartEnd = ref(
   dayjs(chartStart.value, format.value).add(3, "days").hour(12).format(format.value)
 )
+
+const onLabelClick = (e: MouseEvent) => {
+  console.log("click-label", e)
+}
 
 const bars1 = ref<GanttBarObject[]>([
   {
@@ -88,6 +97,9 @@ const bars2 = ref([
     ganttBarConfig: {
       id: "9716981641",
       label: "Oh hey",
+      subtitle: "I'm a subtitle",
+      html: "<strong>HTML</strong> content",
+      hasHandles: true,
       style: {
         background: "#69e064",
         borderRadius: "15px",

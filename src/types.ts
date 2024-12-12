@@ -6,6 +6,7 @@ export type GanttBarObject = {
   ganttBarConfig: {
     id: string
     label?: string
+    subtitle?: string
     html?: string
     hasHandles?: boolean
     immobile?: boolean

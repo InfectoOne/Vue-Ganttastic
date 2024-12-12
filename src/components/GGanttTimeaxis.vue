@@ -3,7 +3,7 @@
     <div class="g-timeunits-container">
       <div
         v-for="({ label, value, date, width }, index) in timeaxisUnits.upperUnits"
-        :key="label"
+        :key="`${label}_${index}`"
         class="g-upper-timeunit"
         :style="{
           background: index % 2 === 0 ? colors.primary : colors.secondary,
@@ -20,7 +20,7 @@
     <div class="g-timeunits-container">
       <div
         v-for="({ label, value, date, width }, index) in timeaxisUnits.lowerUnits"
-        :key="label"
+        :key="`${label}_${index}`"
         class="g-timeunit"
         :style="{
           background: index % 2 === 0 ? colors.ternary : colors.quartenary,
@@ -31,6 +31,7 @@
         }"
       >
         <slot name="timeunit" :label="label" :value="value" :date="date">
+          {{ shouldShowDayName ? date.toLocaleDateString(locale, { weekday: dayNameLength }) + " " : "" }}
           {{ label }}
         </slot>
         <div
@@ -44,11 +45,16 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue"
 import provideConfig from "../provider/provideConfig.js"
 import useTimeaxisUnits from "../composables/useTimeaxisUnits.js"
 
-const { precision, colors } = provideConfig()
+const { precision, colors, showDayName, dayNameLength, locale } = provideConfig()
 const { timeaxisUnits } = useTimeaxisUnits()
+
+const shouldShowDayName = computed(() => {
+  return showDayName && (precision.value === "day" || precision.value === "date")
+})
 </script>
 
 <style>

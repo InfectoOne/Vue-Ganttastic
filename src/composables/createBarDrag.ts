@@ -12,7 +12,7 @@ export default function createBarDrag(
   onEndDrag: (e: MouseEvent, bar: GanttBarObject) => void = () => null,
   config: GGanttChartConfig = provideConfig()
 ) {
-  const { barStart, barEnd, pushOnOverlap } = config
+  const { barStart, barEnd, pushOnOverlap, allowRightClickDragging, disableDragging } = config
 
   const isDragging = ref(false)
   let cursorOffsetX = 0
@@ -22,6 +22,15 @@ export default function createBarDrag(
   const { toDayjs } = useDayjsHelper(config)
 
   const initDrag = (e: MouseEvent) => {
+    if (disableDragging.value) {
+      return
+    }
+
+    if (!allowRightClickDragging.value && e.buttons === 2) {
+      // Do not allow dragging when right-clicking
+      return
+    }
+
     const barElement = document.getElementById(bar.ganttBarConfig.id)
     if (!barElement) {
       return

@@ -14,7 +14,9 @@
       :style="{ background: colors.primary, color: colors.text }"
     >
       <slot name="label">
-        {{ label }}
+        <span @click="onLabelClick">
+          {{ label }}
+        </span>
       </slot>
     </div>
     <div ref="barContainer" class="g-gantt-row-bars-container" v-bind="$attrs">
@@ -28,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref, toRefs, computed, type StyleValue, provide } from "vue"
+import { ref, type Ref, toRefs, computed, type StyleValue, provide, onMounted } from "vue"
 
 import useTimePositionMapping from "../composables/useTimePositionMapping.js"
 import provideConfig from "../provider/provideConfig.js"
@@ -40,11 +42,26 @@ const props = defineProps<{
   label: string
   bars: GanttBarObject[]
   highlightOnHover?: boolean
+  disableDragging?: boolean
+  id?: string | number
 }>()
 
 const emit = defineEmits<{
   (e: "drop", value: { e: MouseEvent; datetime: string | Date }): void
+  (e: "click-label", value: { e: MouseEvent; label: string; id?: string | number }): void
 }>()
+
+const setImmobileFlags = () => {
+  for (const bar of props.bars) {
+    if (!Object.prototype.hasOwnProperty.call(bar.ganttBarConfig, "immobile")) {
+      bar.ganttBarConfig.immobile = props.disableDragging
+    } else {
+      // if disableDragging is set to true, then override immobile flag
+      // if it isn't, then leave it as is
+      bar.ganttBarConfig.immobile = props.disableDragging || bar.ganttBarConfig.immobile
+    }
+  }
+}
 
 const { rowHeight, colors, labelColumnTitle } = provideConfig()
 const { highlightOnHover } = toRefs(props)
@@ -73,10 +90,17 @@ const onDrop = (e: MouseEvent) => {
   emit("drop", { e, datetime })
 }
 
-const isBlank = (str: string) => {
-  return (!str || /^\s*$/.test(str))
+const onLabelClick = (e: MouseEvent) => {
+  emit("click-label", { e, label: props.label, id: props.id })
 }
 
+const isBlank = (str: string) => {
+  return !str || /^\s*$/.test(str)
+}
+
+onMounted(() => {
+  setImmobileFlags()
+})
 </script>
 
 <style>

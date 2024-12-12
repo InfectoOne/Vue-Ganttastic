@@ -29,3 +29,6 @@ docs/.vitepress/temp
 docs/.vitepress/dist
 
 *.tgz
+
+# Package manager
+.npmrc

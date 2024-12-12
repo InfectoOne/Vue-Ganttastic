@@ -18,3 +18,6 @@ export const EMIT_BAR_EVENT_KEY = Symbol("EMIT_BAR_EVENT_KEY") as InjectionKey<E
 export const BAR_CONTAINER_KEY = Symbol("BAR_CONTAINER_KEY") as InjectionKey<
   Ref<HTMLElement | null>
 >
+export const CHART_CONTAINER_KEY = Symbol("CHART_CONTAINER_KEY") as InjectionKey<
+  Ref<HTMLElement | null>
+>
