@@ -98,6 +98,8 @@ const bars2 = ref([
       id: "9716981641",
       label: "Oh hey",
       subtitle: "I'm a subtitle",
+      html: "<strong>HTML</strong> content",
+      hasHandles: true,
       style: {
         background: "#69e064",
         borderRadius: "15px",

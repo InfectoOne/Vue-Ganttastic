@@ -73,7 +73,7 @@ const row2BarList = ref([
 </script>
 ```
 
-The result shoud look like this:  
+The result should look like this:  
 <g-gantt-chart chart-start="2021-07-12 12:00" chart-end="2021-07-14 12:00" precision="hour" width="100%" bar-start="myBeginDate" bar-end="myEndDate"> <g-gantt-row label="My row 1" :bars="row1BarList"/>
 <g-gantt-row label="My row 2" :bars="row2BarList"/>
 </g-gantt-chart>
