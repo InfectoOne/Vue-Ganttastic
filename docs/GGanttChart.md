@@ -19,9 +19,9 @@ The main component of Vue Ganttastic. Represents an entire chart and is meant to
 | `no-overlap` | boolean? |  `false` | If `push-on-overlap` is `false`, toggle this to prevent overlaps after drag by snapping the dragged bar back to its original position.
 | `row-height` | number? | `40` | Height of each row in pixels.
 | `highlighted-units` | number[]? | `[]` | The time units specified here will be visually highlighted in the chart with a mild opaque color. Make sure to also use the `grid` prop on the chart.
-| `highlighted-days-of-week` | number[]? | When using `precision = day` or `date`, set this array to the days of the week that should be highlighted. Sunday = 0. So to highlight weekends, use `[0, 6]`. Can be combined with `highlighted-dates`. Make sure to also use the `grid` prop on the chart.
-| `highlighted-dates` | number[]? | When using `precision = day` or `date`, set this array to the dates that should be highlighted. e.g. `[1, 15, 23]` to highlight the 1st, 15th and 23rd. Can be combined with `highlighted-days-of-week`. Make sure to also use the `grid` prop on the chart.
-| `highlighted-hours` | number[]? | When using `precision = hour` set this array to the hours that should be highlighted. Make sure to also use the `grid` prop on the chart.
+| `highlighted-days-of-week` | number[]? | `[]` | When using `precision = day` or `date`, set this array to the days of the week that should be highlighted. Sunday = 0. So to highlight weekends, use `[0, 6]`. Can be combined with `highlighted-dates`. Make sure to also use the `grid` prop on the chart.
+| `highlighted-dates` | number[]? | `[]` | When using `precision = day` or `date`, set this array to the dates that should be highlighted. e.g. `[1, 15, 23]` to highlight the 1st, 15th and 23rd. Can be combined with `highlighted-days-of-week`. Make sure to also use the `grid` prop on the chart.
+| `highlighted-hours` | number[]? | `[]` | When using `precision = hour` set this array to the hours that should be highlighted. Make sure to also use the `grid` prop on the chart.
 | `font` | string | `"Helvetica"`| Font family of the chart.
 | `label-column-title` | string? | `''` | If specified, a dedicated column for the row labels will be rendered on the left side of the graph. The specified title is displayed in the upper left corner, as the column's header.
 | `label-column-width` | string? | `150px` | Width of the column containing the row labels (if `label-column-title` specified)
