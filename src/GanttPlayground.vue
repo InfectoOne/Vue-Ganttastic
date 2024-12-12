@@ -97,6 +97,7 @@ const bars2 = ref([
     ganttBarConfig: {
       id: "9716981641",
       label: "Oh hey",
+      subtitle: "I'm a subtitle",
       style: {
         background: "#69e064",
         borderRadius: "15px",

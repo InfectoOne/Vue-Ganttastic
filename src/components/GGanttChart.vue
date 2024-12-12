@@ -41,7 +41,11 @@
         </div>
       </div>
     </div>
-    <g-gantt-bar-tooltip :model-value="showTooltip || isDragging" :bar="tooltipBar">
+    <g-gantt-bar-tooltip
+      :model-value="showTooltip || isDragging"
+      :bar="tooltipBar"
+      :tooltipTitle="showLabelAsTooltipTitle"
+    >
       <template #default>
         <slot name="bar-tooltip" :bar="tooltipBar" />
       </template>
@@ -109,6 +113,7 @@ export interface GGanttChartProps {
   locale?: string
   allowRightClickDragging?: boolean
   disableDragging?: boolean
+  showLabelAsTooltipTitle?: boolean
 }
 
 export type GGanttChartConfig = ToRefs<Required<GGanttChartProps>> & {
@@ -141,7 +146,8 @@ const props = withDefaults(defineProps<GGanttChartProps>(), {
   dayNameLength: "short",
   locale: "en-GB",
   allowRightClickDragging: false,
-  disableDragging: false
+  disableDragging: false,
+  showLabelAsTooltipTitle: true
 })
 
 const emit = defineEmits<{

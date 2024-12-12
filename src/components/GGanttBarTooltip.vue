@@ -12,7 +12,7 @@
       >
         <div class="g-gantt-tooltip-color-dot" :style="{ background: dotColor }" />
         <slot :bar="bar" :bar-start="barStartRaw" :bar-end="barEndRaw">
-          {{ tooltipContent }}
+          <span v-html="tooltipContent"></span>
         </slot>
       </div>
     </transition>
@@ -40,6 +40,7 @@ const DEFAULT_DOT_COLOR = "cadetblue"
 const props = defineProps<{
   bar: GanttBarObject | undefined
   modelValue: boolean
+  tooltipTitle?: boolean
 }>()
 
 const { bar } = toRefs(props)
@@ -85,7 +86,11 @@ const tooltipContent = computed(() => {
   const format = TOOLTIP_FORMATS[precision.value]
   const barStartFormatted = toDayjs(barStartRaw.value).format(format)
   const barEndFormatted = toDayjs(barEndRaw.value).format(format)
-  return `${barStartFormatted} \u2013 ${barEndFormatted}`
+  const title = props.tooltipTitle ? `${props?.bar?.ganttBarConfig.label} <br />` : ""
+  const subtitle = props?.bar?.ganttBarConfig.subtitle
+    ? `<br />${props.bar.ganttBarConfig.subtitle}`
+    : ""
+  return `${title}${barStartFormatted} \u2013 ${barEndFormatted}${subtitle}`
 })
 </script>
 
